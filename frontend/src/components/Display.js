@@ -19,6 +19,16 @@ const restaurantsQuery = gql`
   }
 `;
 
+const restaurantGroupQuery = gql`
+  {
+    restaurantGroups {
+      name
+      id
+      restaurantIds
+    }
+  }
+`;
+
 const Display = (props) => {
   /**
    * useQuery is a React Hook (refer to accompanying slides for a quick explanation).
@@ -27,6 +37,9 @@ const Display = (props) => {
    */
   const { loading, error, data } = useQuery(restaurantsQuery, {
     onCompleted: data => { props.loadData(removeTypeName(data.restaurants)) }
+  });
+  const { loading, error, data } = useQuery(restaurantGroupQuery, {
+    onCompleted: data => { props.loadData(removeTypeName(data.restaurantGroups)) }
   });
 
   if (loading) return <p>Loading...</p>;
@@ -38,6 +51,7 @@ const Display = (props) => {
       <BasicTable data={removeTypeName(data.restaurants)} />
       <h2>Global Data Handling</h2>
       <BasicTable  data={props.storeData} />
+      
     </div>
   );
 }

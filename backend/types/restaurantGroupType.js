@@ -11,34 +11,24 @@ import { gql } from "apollo-server-express";
  * - nested under "extend type Query { ... }", we have signatures for 2 queries. They are like method declarations, with parameters and return types
  * - similarly, nested under "extend type Mutation { ... }", we have signatures for 3 mutations
  */
-const restaurantType = gql`
-    enum Budget {
-        LOW
-        MEDIUM
-        HIGH
-    }
+const restaurantGroupType = gql`
 
-    type Restaurant {
+    type RestaurantGroup {
         id: ID!
         name: String
-        address: String
-        type: String
-        budget: Budget
         description: String
-        rating: Int
+        restaurantIds: [Int]
     }
 
     extend type Query {
-        restaurant(id: ID!): Restaurant
-        restaurants: [Restaurant!]!
+        restaurantGroup(id: ID!): RestaurantGroup
+        restaurantGroups: [RestaurantGroup!]!
     }
 
     extend type Mutation {
-        createRestaurant(name: String!, address: String, type: String, budget: Budget, description: String, rating: Int) : Restaurant
-        updateRestaurant(id: ID!, name: String!, address: String, type: String, budget: Budget, description: String, rating: Int) : Restaurant
-        deleteRestaurant(id: ID!) : ID
+        createRestaurantGroup(name: String!, description: String, restaurantIds: [Int]) : RestaurantGroup
     }
     
 `;
 
-export default restaurantType;
+export default restaurantGroupType;

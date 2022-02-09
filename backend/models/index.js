@@ -5,12 +5,17 @@ const sequelize = new Sequelize(
 );
 
 const db = {
-    Restaurant: require("./restaurant")(sequelize, Sequelize)
+    Restaurant: require("./restaurant")(sequelize, Sequelize),
+    RestaurantGroup: require("./restaurantGroup")(sequelize, Sequelize),
 };
+
+// association
+db.Restaurant.belongsToMany(db.RestaurantGroup, { through: 'RestaurantRestaurantGroup' });
+db.RestaurantGroup.belongsToMany(db.Restaurant, { through: 'RestaurantRestaurantGroup' });
 
 Object.keys(db).forEach(key => {
     if ("associate" in db[key]) {
-      db[key].associate(db);
+      db[key].associate(db); 
     }
 });
  
